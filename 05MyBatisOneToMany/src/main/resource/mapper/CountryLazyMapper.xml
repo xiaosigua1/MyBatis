@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdf.dao.CountryDao"> <!--必须是对应的dao接口的全类名-->
+
+<!--01 根据国家的编号  查询出 国家的信息  xxx就是用户输入的值-->
+    <select id="selectCountryById"  resultMap="countryMap">
+        select cid,cname from country where cid=#{xxx}
+    </select>
+<!--02 根据国家的编号  查询出 国家对应的省会信息   xxx 谁给传值-->
+    <select id="selectProvincialByCid" resultType="Provincial">
+        select pid,pname from provincial where countryid=#{xxx}
+    </select>
+
+    <!--对应的countryMap  这种方式 推荐使用  因为使用使用延迟加载-->
+    <resultMap id="countryMap" type="Country">
+        <id property="cId" column="cid"/>
+        <result property="cName" column="cname"/>
+       <!--
+       select: 指的是关联sql语句的id ===》根据国家的编号  查询出 国家对应的省会信息的sql
+       column：关联sql语句需要的参数
+       -->
+        <collection property="provincials"  ofType="Provincial"
+                    select="selectProvincialByCid" column="cid"/>
+    </resultMap>
+
+
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdf.dao.TeacherDao"> <!--必须是对应的dao接口的全类名-->
+    <cache/> <!--开启本文件中所有的2级缓存-->
+    <!--根据id查询指定的老师信息
+    useCache=false   我们这个sql执行的结果不会放进 2级缓存   默认是true
+    局部关闭 ，相当于这个sql 没有2级缓存
+    -->
+     <select id="selectTeacherByID"   useCache="false"  resultType="Teacher">
+         SELECT  tid,tname from  teacher where tid=#{xxx}
+     </select>
+
+    <!--新增teacher-->
+    <insert id="insertTeacher" parameterType="Teacher" >
+        insert into  teacher(tid,tname) values(#{tid},#{tName})
+    </insert>
+
+
+</mapper>

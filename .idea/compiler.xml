@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="01MyBatisBase" />
+        <module name="02MyBatisMapper" />
+        <module name="03MyBatisMoreCondition" />
+        <module name="04MyBatisDynamic" />
+        <module name="05MyBatisOneToMany" />
+        <module name="06MyBatisManyToOne" />
+        <module name="07MyBatisOneToManyBySelf" />
+        <module name="08MyBatisManyToOneBySelf" />
+        <module name="09MyBatisManyToMany" />
+        <module name="10MyBatisOneLevelCache" />
+        <module name="11MyBatisSecondLevelCache" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="01MyBatisBase" target="1.5" />
+      <module name="02MyBatisMapper" target="1.5" />
+      <module name="03MyBatisMoreCondition" target="1.5" />
+      <module name="04MyBatisDynamic" target="1.5" />
+      <module name="05MyBatisOneToMany" target="1.5" />
+      <module name="06MyBatisManyToOne" target="1.5" />
+      <module name="07MyBatisOneToManyBySelf" target="1.5" />
+      <module name="08MyBatisManyToOneBySelf" target="1.5" />
+      <module name="09MyBatisManyToMany" target="1.5" />
+      <module name="10MyBatisOneLevelCache" target="1.5" />
+      <module name="11MyBatisSecondLevelCache" target="1.5" />
+      <module name="MyBatis" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

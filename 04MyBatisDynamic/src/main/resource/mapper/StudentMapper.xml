@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdf.dao.StudentDao"> <!--必须是对应的dao接口的全类名-->
+
+   <!-- 01.用户传递一个Student对象  但是我们不知道用户对那些属性赋了值
+      注意点  特殊字符的使用
+      && （逻辑与）  必须换成 (and) 或者 (&amp;)
+      where 1=1  每次拼接查询都会 执行 影响性能
+   -->
+      <select id="selectStudentsByIf" resultType="Student">
+         SELECT  id,name,age from  student  where 1=1
+         <if test="name!=null and name!=''">
+               and  name like concat('%',#{name},'%')
+         </if>
+         <if test="age &gt; 0">
+               and  age > #{age}
+         </if>
+      </select>
+
+
+
+    <!--where 标签 替换where 1=1-->
+      <select id="selectStudentsByWhere" resultType="Student">
+         SELECT  id,name,age from  student
+          <where>
+              <if test="name!=null and name!=''">
+                  and  name like concat('%',#{name},'%')
+              </if>
+              <if test="age &gt; 0">
+                  and  age > #{age}
+              </if>
+          </where>
+      </select>
+
+
+    <!--
+    choose标签    类似java中的switch
+       01.当我们的年龄不为空 按照年龄查询
+       02.当我们的姓名不为空 按照姓名查询
+       03.如果都会空 执行otherwise
+          如果没有otherwise标签，会查询所有
+       04.如果多个条件满足，执行第一个满足的when
+
+    如果条件只允许执行一个  就是用choose
+      因为值执行一个sql  所以不需要加and
+    想多个条件执行，使用if
+      因为有多个sql需要拼接 所以 不能省略and
+    在mybatis中 底层不会给我们生成and
+    -->
+    <select id="selectStudentsByChoose" resultType="Student">
+          SELECT  id,name,age from  student
+        <where>
+           <choose>
+                <when test="name!=null and name!=''">
+                      name like concat('%',#{name},'%')
+                </when>
+                <when test="age > 0">
+                      age>#{age}
+                </when>
+               <otherwise>
+                 1!=1
+              </otherwise>
+           </choose>
+        </where>
+    </select>
+
+
+    <!-- foreach 遍历数组
+    我们之前在mysql中查询的语句
+    SELECT  id,NAME,age FROM student   WHERE id IN (12,13,14)
+    问题？？
+    01.我们知道用户输入的是12，13,14,吗？？？
+    02.12，13,14是动态获取的  是dao中方法的参数 int [] nums
+    03.nums的每个元素 就是  12,13,14
+    04.用户是不是有可能一个值都没有传入
+    05.只要是数组    在mybatis对应的值就是array
+     -->
+    <select id="selectStudentsByForeachArray" resultType="Student">
+        SELECT  id,NAME,age FROM student
+        <if test="array.length>0"> /*证明用户有值传入*/
+             where id IN         /*(12,13,14) 动态的拼接*/
+            <foreach collection="array" item="varId" open="(" separator="," close=")">
+                #{varId}
+            </foreach>
+        </if>
+    </select>
+
+    <!--遍历 List集合  在mybatis对应的值就是list-->
+    <select id="selectStudentsByForeachList" resultType="Student">
+        SELECT  id,NAME,age FROM student
+        <if test="list.size>0">
+             where id IN
+            <foreach collection="list" item="varId" open="(" separator="," close=")">
+                #{varId}
+            </foreach>
+        </if>
+    </select>
+    <!--遍历 Student集合 -->
+    <select id="selectStudentsByForeachStudent" resultType="Student">
+        SELECT  id,NAME,age FROM student
+        <if test="list.size>0">
+             where id IN
+            <foreach collection="list" item="stu" open="(" separator="," close=")">
+                #{stu.id} /*必须是对象中的属性*/
+            </foreach>
+        </if>
+    </select>
+
+    <!--遍历 map集合   map集合在mybatis中没有设置对应的值
+    myMap就是我们dao层方法的@Param("myMap")
+    遍历myMap.keys 就是获取map集合中的所有key的集合
+    -->
+    <select id="selectStudentsByForeachMap" resultType="Student">
+        <include refid="seleteStudents"/>
+            where id IN
+        <if test="myMap.keys.size>0">
+            <foreach collection="myMap.keys"  item="mapKey" open="(" separator="," close=")">
+                #{mapKey}
+            </foreach>
+        </if>
+    </select>
+
+    <!--
+     sql片段：  提取mapper文件中所有的sql公共部分
+    -->
+
+    <sql id="seleteStudents">
+          SELECT  id,NAME,age FROM student
+    </sql>
+
+
+</mapper>

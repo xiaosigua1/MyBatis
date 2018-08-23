@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdf.dao.StudentDao">
+    <!--新增操作   id必须和StudentDao中的方法名称一致-->
+    <insert id="addStudent" parameterType="Student">
+        /*因为我们的参数是Student对象   所以 values中的值 必须是Student类中的属性*/
+        INSERT  INTO  student(age,name)  VALUES (#{age},#{name})
+    </insert>
+    <!--新增操作  会获取我们插入数据的id
+    SELECT @@identity
+    SELECT LAST_INSERT_ID()    查询刚插入数据的主键
+    -->
+    <insert id="addStudentByCache" parameterType="Student">
+        INSERT  INTO  student(age,name)  VALUES (#{age},#{name})
+        /* order="AFTER" 适用于mysql数据库
+          order="BEFORE" 适用于oracle数据库
+          */
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            SELECT  @@IDENTITY
+        </selectKey>
+    </insert>
+
+    <!--删除操作  传递一个id不是一个对象 所以我们在sql语句中就可以用占位符-->
+    <delete id="deleteStudent" parameterType="int">
+        delete from student where id=#{xxx}
+    </delete>
+     <!--修改操作  传递的是一个student对象-->
+    <update id="updateStudent" parameterType="Student">
+          update student  SET name=#{name},age=#{age}
+          where id=#{id}
+    </update>
+
+    <!--查询所有的student-->
+    <select id="selectAllStudents" resultType="Student">
+        select id,age,NAME from student
+    </select>
+    <!--查询所有的student  返回值是map
+      如果我们写的是resultType="map"
+      那么mybatis在底层会把我们的每个字段当成key
+      字段对象的值 是value！  这样不可行！
+      我们是想把某一个字段当成key!
+      整行数据（对象）当成value！
+      这时候就需要把resultType换成resultMap(结果映射)="映射的resultMap名称"
+      mybatis底层会进行拦截ResultSet!
+      然后根据我们在resultMap中的配置，
+      把对应的key和value封装到map集合中！
+    -->
+    <select id="selectAllByMap" resultMap="studentMap">
+        select id,age,NAME from student
+    </select>
+
+    <!--
+      01.数据库字段名和我们实体类属性名不一致   必须使用
+      02.返回结果是map集合时  必须使用
+      03.关联映射 以及延迟加载   必须使用
+    -->
+    <resultMap id="studentMap" type="Student">
+        <id property="id" column="id"/><!--只针对于主键的设置-->
+        <result property="age" column="age"/> <!--设置除了主键，集合，对象之外的属性-->
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <!--根据指定的id查询对象-->
+    <select id="selectStudentById" parameterType="int" resultType="Student">
+        select id,name,age from student where id=#{xxx}
+    </select>
+
+    <!--根据学生name模糊查询
+     SELECT id,name,age FROM student  where name like '%' #{value} '%'
+    -->
+    <select id="selectByName" resultType="Student">
+       SELECT id,name,age FROM student  where name like concat('%',#{xxx},'%')
+    </select>
+
+
+</mapper>

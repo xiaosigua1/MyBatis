@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--加载我们需要的properties文件  获取连接四要素-->
+    <properties resource="jdbc.properties"/>
+    <settings>
+        <!--开启延迟加载  默认值是 false-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--
+          我们的一个实体类中可以有多个延迟加载属性不？？ 肯定可以！
+          当启用后，一个有延迟加载属性的对象的任何一个延迟属性被加载时，该对象的所有的属性都会被加载。
+          否则，所有属性都是按需加载。默认值是true
+        -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    <!--创建类的别名-->
+    <typeAliases>
+        <!--只要是在mapper.xml文件中使用了com.xdf.bean包下面的任意类的时候，无需再用全类名
+        使用简写的类名
+          之前应该 com.xdf.bean.Student
+          现在  Student
+        -->
+         <package name="com.xdf.bean"/>
+       <!--
+       规定指定类的别名  但是如果有多个类 使用不方便
+       <typeAlias type="com.xdf.bean.Student" alias="s"></typeAlias>
+       -->
+    </typeAliases>
+
+
+   <!--设置mybatis运行环境  default默认的运行环境====environment id的属性值-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--配置事务管理器 现在mybatis自己采用jdbc事务管理
+              后期我们整合的时候   这个事务会交给spring进行管理-->
+            <transactionManager type="JDBC"/>
+            <!--配置数据源  POOLED:mybatis自带的数据源  也可以使用tomcat中的  JNDI-->
+            <dataSource type="POOLED">
+                <!--从jdbc.properties 文件中获取 数据库连接的 四要素 注入到 数据源中-->
+                 <property name="driver" value="${jdbc.driver}"/>
+                 <property name="url" value="${jdbc.url}"/>
+                 <property name="username" value="${jdbc.username}"/>
+                 <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--配置需要的mapper文件-->
+    <mappers>
+        <mapper resource="mapper/CountryLazyMapper.xml"/><!--使用延迟加载的文件-->
+    </mappers>
+
+</configuration>

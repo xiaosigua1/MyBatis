@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdf.dao.TeacherDao"> <!--必须是对应的dao接口的全类名-->
+
+    <!--根据学生的编号 查询出对应的所有老师信息-->
+    <select id="selectTeachersBySid" resultMap="studentMap">
+        select s.sid,sname,t.tid,tname from student s,teacher t,middle m
+        where s.sid=m.sid and  t.tid=m.tid  and s.sid=#{xxx}
+    </select>
+
+
+    <resultMap id="studentMap" type="Student">
+         <id property="sid" column="sid"/>
+        <result property="sname" column="sname"/>
+        <!--一个学生可以有多个老师-->
+        <collection property="teachers" ofType="Teacher">
+             <id property="tid" column="tid"/>
+            <result property="tName" column="tname"/>
+        </collection>
+    </resultMap>
+
+
+    <!--根据老师的编号 查询出对应的所有学生信息-->
+    <select id="selectStudentsByTid" resultMap="teacherMap">
+        select s.sid,sname,t.tid,tname from student s,teacher t,middle m
+        where s.sid=m.sid and  t.tid=m.tid  and t.tid=#{xxx}
+    </select>
+
+
+    <resultMap id="teacherMap" type="Teacher">
+        <id property="tid" column="tid"/>
+        <result property="tName" column="tname"/>
+        <!--一个学生可以有多个老师-->
+        <collection property="students" ofType="Student">
+            <id property="sid" column="sid"/>
+            <result property="sname" column="sname"/>
+        </collection>
+    </resultMap>
+</mapper>

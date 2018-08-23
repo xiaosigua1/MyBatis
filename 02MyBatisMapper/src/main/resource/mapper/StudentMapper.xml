@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdf.dao.StudentDao">
+    <insert id="addStudent" parameterType="Student">
+        INSERT  INTO  student(age,name)  VALUES (#{age},#{name})
+    </insert>
+    <insert id="addStudentByCache" parameterType="Student">
+        INSERT  INTO  student(age,name)  VALUES (#{age},#{name})
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            SELECT  @@IDENTITY
+        </selectKey>
+    </insert>
+
+    <!--删除操作  传递一个id不是一个对象 所以我们在sql语句中就可以用占位符-->
+    <delete id="deleteStudent" parameterType="int">
+        delete from student where id=#{xxx}
+    </delete>
+     <!--修改操作  传递的是一个student对象-->
+    <update id="updateStudent" parameterType="Student">
+          update student  SET name=#{name},age=#{age}
+          where id=#{id}
+    </update>
+
+    <!--查询所有的student-->
+    <select id="selectAllStudents" resultType="Student">
+        select id,age,NAME from student
+    </select>
+    <select id="selectAllByMap" resultMap="studentMap">
+        select id,age,NAME from student
+    </select>
+    <resultMap id="studentMap" type="Student">
+        <id property="id" column="id"/><!--只针对于主键的设置-->
+        <result property="age" column="age"/> <!--设置除了主键，集合，对象之外的属性-->
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <!--根据指定的id查询对象-->
+    <select id="selectStudentById" parameterType="int" resultType="Student">
+        select id,name,age from student where id=#{xxx}
+    </select>
+
+    <!--根据学生name模糊查询-->
+    <select id="selectByName" resultType="Student">
+       SELECT id,name,age FROM student  where name like concat('%',#{xxx},'%')
+    </select>
+
+
+</mapper>

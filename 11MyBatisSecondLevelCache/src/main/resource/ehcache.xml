@@ -1,0 +1,35 @@
+<ehcache>
+   
+    <diskStore path="java.io.tmpdir"/>
+
+    <!--
+    maxElementsInMemory: 在内存中 最大的存储量
+    eternal：在内存中是否永远不销毁
+    timeToIdleSeconds：当缓存数据闲置（没人使用）多少时间后销毁  以秒为单位
+    timeToLiveSeconds：当缓存数据超过多少时间后销毁   以秒为单位
+    overflowToDisk：当缓存满的时候是否存放到磁盘中
+    diskPersistent：磁盘文件是否永久保存
+    diskExpiryThreadIntervalSeconds： 对象检测线程运行时间间隔。标识对象状态的线程多长时间运行一次。
+
+    memoryStoreEvictionPolicy： 缓存清理策略
+      01. FIFO ，first in first out (先进先出).
+      02. LFU ， Less Frequently Used (最少使用).
+          意思是一直以来最少被使用的。缓存的元素有一个hit 属性，hit 值最小的将会被清出缓存。
+      03. LRU ，Least Recently Used(最近最少使用).
+         (ehcache 默认值).缓存的元素有一个时间戳，当缓存容量满了，
+         而又需要腾出地方来缓存新的元素的时候，
+         那么现有缓存元素中时间戳离当前时间最远的元素将被清出缓存。
+    -->
+
+  
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+            />
+</ehcache>

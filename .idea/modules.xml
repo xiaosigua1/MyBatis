@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/01MyBatisBase/01MyBatisBase.iml" filepath="$PROJECT_DIR$/01MyBatisBase/01MyBatisBase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02MyBatisMapper/02MyBatisMapper.iml" filepath="$PROJECT_DIR$/02MyBatisMapper/02MyBatisMapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/03MyBatisMoreCondition/03MyBatisMoreCondition.iml" filepath="$PROJECT_DIR$/03MyBatisMoreCondition/03MyBatisMoreCondition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/04MyBatisDynamic/04MyBatisDynamic.iml" filepath="$PROJECT_DIR$/04MyBatisDynamic/04MyBatisDynamic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05MyBatisOneToMany/05MyBatisOneToMany.iml" filepath="$PROJECT_DIR$/05MyBatisOneToMany/05MyBatisOneToMany.iml" />
+      <module fileurl="file://$PROJECT_DIR$/06MyBatisManyToOne/06MyBatisManyToOne.iml" filepath="$PROJECT_DIR$/06MyBatisManyToOne/06MyBatisManyToOne.iml" />
+      <module fileurl="file://$PROJECT_DIR$/07MyBatisOneToManyBySelf/07MyBatisOneToManyBySelf.iml" filepath="$PROJECT_DIR$/07MyBatisOneToManyBySelf/07MyBatisOneToManyBySelf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/08MyBatisManyToOneBySelf/08MyBatisManyToOneBySelf.iml" filepath="$PROJECT_DIR$/08MyBatisManyToOneBySelf/08MyBatisManyToOneBySelf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/09MyBatisManyToMany/09MyBatisManyToMany.iml" filepath="$PROJECT_DIR$/09MyBatisManyToMany/09MyBatisManyToMany.iml" />
+      <module fileurl="file://$PROJECT_DIR$/10MyBatisOneLevelCache/10MyBatisOneLevelCache.iml" filepath="$PROJECT_DIR$/10MyBatisOneLevelCache/10MyBatisOneLevelCache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/11MyBatisSecondLevelCache/11MyBatisSecondLevelCache.iml" filepath="$PROJECT_DIR$/11MyBatisSecondLevelCache/11MyBatisSecondLevelCache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyBatis.iml" filepath="$PROJECT_DIR$/MyBatis.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdf.dao.TeacherDao"> <!--必须是对应的dao接口的全类名-->
+
+    <!--
+      根据老师的编号 查询  所有导师的信息
+      递归查询
+      为什么需要查询tid！
+      之前是一对多 ，是把id当成tid再次查询
+      现在是多对一，是把tid当成id再次查询
+      所以必须知道tid的值
+    -->
+
+    <select id="selectTeachersById" resultMap="teacherMap">
+        select id,tname,tid from teacher where id=#{xxx}
+    </select>
+
+    <resultMap id="teacherMap" type="Teacher">
+        <id property="id" column="id"/>
+        <result property="name" column="tname"/>
+        <!--设置域属性-->
+        <association property="teacher" javaType="Teacher" select="selectTeachersById"
+                     column="tid"/>
+    </resultMap>
+
+</mapper>
